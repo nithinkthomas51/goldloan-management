@@ -11,7 +11,7 @@ const customers = [
     {
         customerId: 2,
         customerName: 'Naveen K Thomas',
-        contact: '++919207247410',
+        contact: '+919207247410',
         email: 'naveenkthomas51@gmail.com'
     },
     {
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const {id} = req.params;
-    const customer = customers.find((customer) => customer.customerId === id);
+    const customer = customers.find((customer) => customer.customerId === parseInt(id));
     res.send(customer);
 })
 
