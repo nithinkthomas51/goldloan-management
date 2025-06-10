@@ -35,7 +35,7 @@ The purpose of this project is to digitalize the important business operations o
 ## Planned Technologies
 
 -   **Frontend**: HTML CSS Javascript
--   **Backend**: Python Flask REST API
+-   **Backend**: Express
 -   **Database**: SQLite
 -   **Version Control**: Git GitHub
 
