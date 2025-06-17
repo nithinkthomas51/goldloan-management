@@ -1,35 +1,26 @@
 import express from 'express'
+import { getAllCustomers, findCustomerById } from '../models/customerModel.js'
 
 const router = express.Router();
-const customers = [
-    {
-        customerId: 1,
-        customerName: 'Nithin K Thomas',
-        contact: '+353904641188',
-        email: 'nithinkthomas51@gmail.com'
-    },
-    {
-        customerId: 2,
-        customerName: 'Naveen K Thomas',
-        contact: '+919207247410',
-        email: 'naveenkthomas51@gmail.com'
-    },
-    {
-        customerId: 3,
-        customerName: 'ABC',
-        contact: '+353904642288',
-        email: 'abc@gmail.com'
-    }
-];
 
-router.get('/', (req, res) => {
-    res.send(customers);
+router.get('/', async (req, res) => {
+    try {
+        const customers = await getAllCustomers();
+        res.status(200).json(customers);
+    } catch (err) {
+        res.status(500);
+        res.json({error: err.message});
+    }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const {id} = req.params;
-    const customer = customers.find((customer) => customer.customerId === parseInt(id));
-    res.send(customer);
-})
+    try {
+        const customer = await findCustomerById(parseInt(id));
+        res.status(200).json(customer);
+    } catch (err) {
+        res.status(500).json({error: err.message});
+    }
+});
 
 export default router
