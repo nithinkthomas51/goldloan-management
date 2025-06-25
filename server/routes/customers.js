@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
 
 router.post('/register', async(req, res) => {
     if (!req.body) {
+        res.status(500).json({error: 'Customer Details not available'});
         return;
     }
 
@@ -27,7 +28,7 @@ router.post('/register', async(req, res) => {
     };
 
     console.log(customerDetails.name + ", " + customerDetails.phone);
-    res.status(200).send('Customer Saved');
+    res.status(200).json({message: 'Registration Successful'});
 });
 
 router.get('/:id', async (req, res) => {
