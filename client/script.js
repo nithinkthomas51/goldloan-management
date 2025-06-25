@@ -1,7 +1,7 @@
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
-    const url = 'http://localhost:5000/customers/register';
+    const url = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/customers/register';
     const customerData = {
         name: document.getElementById('customer-name').value,
         phone: document.getElementById('customer-phone').value,
