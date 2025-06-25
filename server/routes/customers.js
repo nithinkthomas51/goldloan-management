@@ -13,6 +13,23 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/register', async(req, res) => {
+    if (!req.body) {
+        return;
+    }
+
+    const customerDetails = {
+        name: req.body.name,
+        phone: req.body.phone,
+        email: req.body.email,
+        address: req.body.address,
+        idProof: req.body.customerID
+    };
+
+    console.log(customerDetails.name + ", " + customerDetails.phone);
+    res.status(200).send('Customer Saved');
+});
+
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
     try {
