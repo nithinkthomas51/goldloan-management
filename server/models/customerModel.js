@@ -40,4 +40,20 @@ async function findCustomerById(id) {
     });
 }
 
-export { getAllCustomers, findCustomerById }
+// Save the given customer to customers table
+async function saveCustomer(customer) {
+    const sqlStmt = "INSERT INTO customers (customer_name, phone, email, customer_address, id_proof) VALUES (?, ?, ?, ?, ?)";
+    const { customer_name, phone, email, customer_address, id_proof } = customer;
+
+    return new Promise((resolve, reject) => {
+        db.run(sqlStmt, [customer_name, phone, email, customer_address, id_proof], function (err) {
+            if (err) {
+                reject(err.message);
+            } else {
+                resolve({lastID: this.lastID, changes: this.changes});
+            }
+        });
+    });
+}
+
+export { getAllCustomers, findCustomerById, saveCustomer }

@@ -25,7 +25,7 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             return response.json;
         })
         .then(data => {
-            console.log('Success: ' + data);
+            console.log('Success: ' + data.customer_id);
         })
         .catch(error => {
             console.log('Error: ' + error);

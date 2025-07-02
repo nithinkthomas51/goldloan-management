@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllCustomers, findCustomerById } from '../models/customerModel.js'
+import { getAllCustomers, findCustomerById, saveCustomer } from '../models/customerModel.js'
 
 const router = express.Router();
 
@@ -20,15 +20,16 @@ router.post('/register', async(req, res) => {
     }
 
     const customerDetails = {
-        name: req.body.name,
+        customer_name: req.body.name,
         phone: req.body.phone,
         email: req.body.email,
-        address: req.body.address,
-        idProof: req.body.customerID
+        customer_address: req.body.address,
+        id_proof: req.body.customerID
     };
 
-    console.log(customerDetails.name + ", " + customerDetails.phone);
-    res.status(200).json({message: 'Registration Successful'});
+    saveCustomer(customerDetails)
+    .then(result => res.status(200).json({customer_id: result.lastID}))
+    .catch(err => res.status(500).json({error: err.message}));
 });
 
 router.get('/:id', async (req, res) => {
