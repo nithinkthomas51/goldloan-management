@@ -24,6 +24,7 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             if (!response.ok) {
                 throw new Error('Failed to register customer : ' + response.statusText);
             }
+            console.log(response.json());
             return response.json();
         })
         .then(data => {
