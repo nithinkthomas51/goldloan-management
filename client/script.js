@@ -1,7 +1,9 @@
+
+const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/';
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
-    const url = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/customers/register';
+    const url = BASE_URL + 'customers/register';
     const customerData = {
         name: document.getElementById('customer-name').value,
         phone: document.getElementById('customer-phone').value,
@@ -25,9 +27,32 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             return response.json;
         })
         .then(data => {
-            console.log('Success: ' + data.customer_id);
+            console.log('Success: ' + data);
         })
         .catch(error => {
             console.log('Error: ' + error);
         });
 })
+
+document.getElementById('get-customers').addEventListener('click', () => {
+    const url = BASE_URL + 'customers/';
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+
+    fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Fetching customer details failed');
+        }
+        return response;
+    }).then(data => {
+        console.log('Customer data: ' + data);
+    }).catch(err => {
+        console.log('Error: ' + err);
+    });
+});
