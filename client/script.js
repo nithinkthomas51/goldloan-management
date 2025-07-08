@@ -24,7 +24,7 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             if (!response.ok) {
                 throw new Error('Failed to register customer : ' + response.statusText);
             }
-            return response.json;
+            return response.customer_id;
         })
         .then(data => {
             console.log('Success: ' + data);
@@ -36,6 +36,7 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
 
 document.getElementById('get-customers').addEventListener('click', () => {
     const url = BASE_URL + 'customers/';
+    console.log(url);
 
     const options = {
         method: 'GET',
@@ -49,7 +50,7 @@ document.getElementById('get-customers').addEventListener('click', () => {
         if (!response.ok) {
             throw new Error('Fetching customer details failed');
         }
-        return response;
+        return response.data;
     }).then(data => {
         console.log('Customer data: ' + data);
     }).catch(err => {
