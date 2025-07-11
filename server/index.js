@@ -2,9 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 const app = express();
-app.use(cors({
-    origin: 'https://nithinkthomas51.github.io',
-}));
+app.use(cors());
 app.use(express.json());
 
 import customerRoutes from './routes/customers.js'

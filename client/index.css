@@ -1,0 +1,64 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff7cc;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+.navbar .brand {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #996600;
+}
+
+.navbar .nav-buttons {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #cc9900;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar button:hover {
+    background-color: #b38600;
+}
+
+.hero {
+    background: linear-gradient(to right, #fff8dc, #fffdf0);
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 2.8em;
+    color: #664400;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.hero .cta-btn {
+    padding: 12px 24px;
+    font-size: 1em;
+    font-weight: bold;
+    background-color: #996600;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hero .cta-btn:hover {
+    background-color: #7a5900;
+}

@@ -28,7 +28,7 @@ router.post('/register', async(req, res) => {
     };
 
     saveCustomer(customerDetails)
-    .then(result => res.status(200).json({customer_id: result.lastID}))
+    .then(result => res.status(200).json({customer_id: result.lastID, row_changed: result.changes}))
     .catch(err => res.status(500).json({error: err.message}));
 });
 

@@ -24,16 +24,17 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             if (!response.ok) {
                 throw new Error('Failed to register customer : ' + response.statusText);
             }
-            response.json().then((result) =>{
-                console.log(result);
+            response.json()
+            .then((result) =>{
                 return result;
-            });
-        })
-        .then(data => {
-            console.log('Success: ' + data);
+            })
+            .then(data => {
+                console.log(data.row_changed + " new customer added with Customer ID: " + data.customer_id);
+            })
+            .catch(err => console.log(err.message));
         })
         .catch(error => {
-            console.log('Error: ' + error);
+            console.log('Error: ' + error.message);
         });
 })
 
@@ -53,10 +54,14 @@ document.getElementById('get-customers').addEventListener('click', () => {
         if (!response.ok) {
             throw new Error('Fetching customer details failed');
         }
-        return response.json();
-    }).then(data => {
-        console.log('Customer data: ' + data);
-    }).catch(err => {
+        response.json()
+        .then(result => {
+            return result;
+        })
+        .then(data => console.log(data))
+        .catch(err => console.log(err.message));
+    })
+    .catch(err => {
         console.log('Error: ' + err);
     });
 });
