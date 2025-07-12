@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - Siji Financiers</title>
+    <link rel="stylesheet" href="staff.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="brand">Siji Financiers</div>
+        <div class="actions">
+            <button onclick="openPopup('customerPopup')">Add Customer</button>
+            <button onclick="openPopup('loanPopup')">Create New Loan</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Active Loans</h2>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>
+
+    <div class="popup-form" id="customerPopup">
+        <h2>Add Customer</h2>
+        <form>
+            <input type="text" id="customer-name" placeholder="Customer Name" required>
+            <input type="text" id="customer-phone" required>
+            <input type="email" id="customer-email" required>
+            <input type="text" id="customer-address" required>
+            <input type="text" id="customer-id" required>
+            <button type="submit" id="customer-registration">Register</button>
+        </form>
+    </div>
+
+    <div class="popup-form" id="loanPopup">
+        <h2>Create New Loan</h2>
+        <form id="loanForm">
+            <input type="text" placeholder="Customer ID" required>
+            <input type="date" placeholder="Start Date" required>
+
+            <h3>Gold Details</h3>
+            <div id="goldDetails"></div>
+            <button type="button" onclick="addGoldItem()">Add New Item</button>
+
+            <input type="text" placeholder="Total Weight" readonly>
+            <input type="text" placeholder="Estimated Value" readonly>
+            <input type="number" placeholder="Loan Amount" required>
+            <input type="number" placeholder="Interest %" required>
+            <input type="date" placeholder="Due Date" required>
+            <input type="text" placeholder="EMI" readonly>
+            <button type="submit">Accept</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>

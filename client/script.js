@@ -1,5 +1,6 @@
 
 const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/';
+
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -65,3 +66,35 @@ document.getElementById('get-customers').addEventListener('click', () => {
         console.log('Error: ' + err);
     });
 });
+
+function openPopup(id) {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById(id).style.display = 'block';
+}
+
+function closeAllPopups() {
+    document.getElementById('overlay').style.display = 'none';
+    document.querySelectorAll('.popup-form').forEach(p => p.style.display = 'none');
+}
+
+function addGoldItem() {
+    const container = document.getElementById('goldDetails');
+    const div = document.createElement("div");
+    div.classList.add('gold-item');
+    div.innerHTML = `
+        <select>
+            <option value="Ring">Ring</option>
+            <option value="Chain">Chain</option>
+            <option value="Bangle">Bangle</option>
+            <option value="Necklace">Necklace</option>
+        </select>
+        <input type="number" placeholder="Weight (grams)" required>
+        <input type="number" placeholder="Purity (karat)" required>
+        <button type="button" class="remove-btn" onclick="removeGoldItem(this)">X</button>
+    `;
+    container.appendChild(div);
+}
+
+function removeGoldItem(button) {
+    button.parentElement.remove();
+}
