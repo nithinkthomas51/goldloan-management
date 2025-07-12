@@ -10,6 +10,7 @@
     <div class="navbar">
         <div class="brand">Siji Financiers</div>
         <div class="actions">
+            <button onclick="window.location.href='index.html'">Home</button>
             <button onclick="openPopup('customerPopup')">Add Customer</button>
             <button onclick="openPopup('loanPopup')">Create New Loan</button>
         </div>
@@ -24,11 +25,11 @@
     <div class="popup-form" id="customerPopup">
         <h2>Add Customer</h2>
         <form>
-            <input type="text" id="customer-name" placeholder="Customer Name" required>
-            <input type="text" id="customer-phone" required>
-            <input type="email" id="customer-email" required>
-            <input type="text" id="customer-address" required>
-            <input type="text" id="customer-id" required>
+            <input type="text" id="customer-name" placeholder="Name" required>
+            <input type="text" id="customer-phone" placeholder="Phone" required>
+            <input type="email" id="customer-email" placeholder="Email" required>
+            <input type="text" id="customer-address" placeholder="Address" required>
+            <input type="text" id="customer-id" placeholder="ID Number" required>
             <button type="submit" id="customer-registration">Register</button>
         </form>
     </div>

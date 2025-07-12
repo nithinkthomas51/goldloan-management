@@ -37,6 +37,12 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
         .catch(error => {
             console.log('Error: ' + error.message);
         });
+        document.getElementById('customer-name').value = "";
+        document.getElementById('customer-phone').value = "";
+        document.getElementById('customer-email').value = "";
+        document.getElementById('customer-address').value = "";
+        document.getElementById('customer-id').value = "";
+        closeAllPopups();
 })
 
 document.getElementById('get-customers').addEventListener('click', () => {
