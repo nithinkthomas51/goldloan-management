@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
 router.post('/register', async(req, res) => {
     if (!req.body) {
-        res.status(500).json({error: 'Customer Details not available'});
+        res.status(400).json({error: 'Customer Details not available'});
         return;
     }
 

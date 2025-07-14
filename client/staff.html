@@ -18,6 +18,25 @@
 
     <div class="section">
         <h2>Active Loans</h2>
+        <table class="loan-table" border="1" cellspacing="0" cellpadding="10">
+            <thead class="loanTableHead">
+                <tr>
+                    <th>Loan ID</th>
+                    <th>Customer ID</th>
+                    <th>Loan Amount</th>
+                    <th>Interest (%)</th>
+                    <th>EMI</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="loanTableBody">
+                <!-- Loan rows will be dynamically inserted here using js-->
+
+            </tbody>
+
+        </table>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>
@@ -37,20 +56,20 @@
     <div class="popup-form" id="loanPopup">
         <h2>Create New Loan</h2>
         <form id="loanForm">
-            <input type="text" placeholder="Customer ID" required>
-            <input type="date" placeholder="Start Date" required>
+            <input type="text" id="customer_id" placeholder="Customer ID" required>
+            <input type="date" id="start_date" placeholder="Start Date" required>
 
             <h3>Gold Details</h3>
             <div id="goldDetails"></div>
             <button type="button" onclick="addGoldItem()">Add New Item</button>
 
-            <input type="text" placeholder="Total Weight" readonly>
-            <input type="text" placeholder="Estimated Value" readonly>
-            <input type="number" placeholder="Loan Amount" required>
-            <input type="number" placeholder="Interest %" required>
-            <input type="date" placeholder="Due Date" required>
-            <input type="text" placeholder="EMI" readonly>
-            <button type="submit">Accept</button>
+            <input type="text" id="total_weight" placeholder="Total Weight" readonly>
+            <input type="text" id="estimated_value" placeholder="Estimated Value" readonly>
+            <input type="number" id="loan_amount" placeholder="Loan Amount" required>
+            <input type="number" id="interest_rate" placeholder="Interest %" required>
+            <input type="date" id="due_date" placeholder="Due Date" required>
+            <input type="text" id="emi" placeholder="EMI" readonly>
+            <button type="submit" id="create-loan">Accept</button>
         </form>
     </div>
 

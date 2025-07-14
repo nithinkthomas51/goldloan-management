@@ -1,4 +1,3 @@
-
 const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/';
 
 document.getElementById('customer-registration').addEventListener('click', (e) => {
@@ -43,11 +42,10 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
         document.getElementById('customer-address').value = "";
         document.getElementById('customer-id').value = "";
         closeAllPopups();
-})
+});
 
 document.getElementById('get-customers').addEventListener('click', () => {
     const url = BASE_URL + 'customers/';
-    console.log(url);
 
     const options = {
         method: 'GET',
@@ -71,6 +69,50 @@ document.getElementById('get-customers').addEventListener('click', () => {
     .catch(err => {
         console.log('Error: ' + err);
     });
+});
+
+document.getElementById('create-loan').addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = BASE_URL + "loans/";
+    const loanData = {
+        customer_id: document.getElementById('customer_id').value,
+        start_date: document.getElementById('start_date').value,
+        due_date: document.getElementById('due_date').value,
+        total_weight: document.getElementById('total_weight').value,
+        estimated_value: document.getElementById('estimated_value').value,
+        loan_amount: document.getElementById('loan_amount').value,
+        interest_rate: document.getElementById('interest_rate').value,
+        emi: document.getElementById('emi').value,
+    }
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loanData)
+    }; 
+
+    let loanID = -1;
+
+    fetch(url, options)
+    .then(response => {
+        if(!response.ok) {
+            throw new Error('Saving loan details failed');
+        }
+        response.json()
+        .then(result => {
+            return result;
+        })
+        .then(data => {
+            if (data.row_changed === 1) {
+                loanID = data.loan_id;
+            }
+        })
+        .catch(err => console.log(err.message))
+    })
+    .catch(err => console.log(err.message));
+
+
 });
 
 function openPopup(id) {
