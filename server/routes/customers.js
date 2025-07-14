@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllCustomers, findCustomerById, saveCustomer } from '../models/customerModel.js'
+import { getAllCustomers, findCustomerById, saveCustomer, updateCustomer } from '../models/customerModel.js'
 
 const router = express.Router();
 
@@ -44,8 +44,7 @@ router.patch('/:id', async(req, res) => {
     const customerData = req.body;
     updateCustomer(id, customerData)
     .then(result => {
-        if (result.changes > 0) {
-            console.log('Data updated successfully');
+        if (result > 0) {
             res.status(200).json({message: 'Updated successfully'});
         } else {
             res.status(404).json({error: 'Customer not found'});

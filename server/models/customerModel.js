@@ -70,12 +70,14 @@ async function updateCustomer(id, customer) {
       SET customer_name = ?, phone = ?, email = ?, customer_address = ?, id_proof = ?
       WHERE customer_id = ?
     `;
-    const { customer_name, phone, email, customer_address, id_proof } = customer;
+    const { name, phone, email, customer_address, id_proof } = customer;
 
     return new Promise((resolve, reject) => {
-        db.run(sqlStmt, [customer_name, phone, email, customer_address, id_proof, id], function(err) {
+        db.run(sqlStmt, [name, phone, email, customer_address, id_proof, id], function(err) {
             if (err) reject(err);
-            else resolve(this.changes);
+            else {
+                resolve(this.changes)
+            };
         })
     });
 }

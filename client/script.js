@@ -54,44 +54,6 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             console.log('Error: ' + error.message);
         });
     }
-
-    // let url = BASE_URL + 'customers/register';
-    // const options = {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(customerData)
-    // };
-
-    // fetch(url, options)
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error('Failed to register customer : ' + response.statusText);
-    //         }
-    //         response.json()
-    //         .then((result) =>{
-    //             return result;
-    //         })
-    //         .then(data => {
-    //             console.log(data.row_changed + " new customer added with Customer ID: " + data.customer_id);
-    //             url = BASE_URL + `customers/${data.customer_id}`;
-    //             fetch(url)
-    //             .then(response => {
-    //                 if (!response.ok) {
-    //                     throw new Error('Customer fetching failed')
-    //                 }
-    //                 response.json()
-    //                 .then(result => updateCustomerTable(result))
-    //                 .catch(err => console.log(err.message));
-    //             })
-    //             .catch(err => console.log('fetch API failure : ' + err.message));
-    //         })
-    //         .catch(err => console.log(err.message));
-    //     })
-    //     .catch(error => {
-    //         console.log('Error: ' + error.message);
-    //     });
     document.getElementById('customer-name').value = "";
     document.getElementById('customer-phone').value = "";
     document.getElementById('customer-email').value = "";
@@ -113,12 +75,24 @@ function updateCustomer(id, customerData) {
     fetch(url, options)
     .then(response => {
         response.json()
-    })
-    .then(data => {
-        console.log('Customer Updated : ' + data);
-        // closeAllPopups();
+        .then(result => {
+            console.log("Successful updation: " + result.message)
+            editCustomerTable(id, customerData);
+        })
+        .catch(err => console.log(err.message));
     })
     .catch(err => console.log(err.message));
+}
+
+function editCustomerTable(id, customer) {
+    const row = document.querySelector(`#customerTableBody tr[data-id='${id}']`);
+    if (!row) return;
+
+    row.children[1].textContent = customer.name;
+    row.children[2].textContent = customer.phone;
+    row.children[3].textContent = customer.email;
+    row.children[4].textContent = customer.address;
+    row.children[5].textContent = customer.customerID;
 }
 
 // document.getElementById('get-customers').addEventListener('click', () => {
