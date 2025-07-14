@@ -39,4 +39,18 @@ router.get('/:id', async (req, res) => {
     .catch(err => res.status(500).json({error: err.message}));
 });
 
+router.patch('/:id', async(req, res) => {
+    const id = req.params.id;
+    const customerData = req.body;
+    updateCustomer(id, customerData)
+    .then(result => {
+        if (result.changes > 0) {
+            console.log('Data updated successfully');
+            res.status(200).json({message: 'Updated successfully'});
+        } else {
+            res.status(404).json({error: 'Customer not found'});
+        }
+    })
+    .catch(err => console.log(err.message));
+})
 export default router

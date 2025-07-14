@@ -64,4 +64,20 @@ async function saveCustomer(customer) {
     });
 }
 
-export { getAllCustomers, findCustomerById, saveCustomer }
+async function updateCustomer(id, customer) {
+    const sqlStmt = `
+      UPDATE customers 
+      SET customer_name = ?, phone = ?, email = ?, customer_address = ?, id_proof = ?
+      WHERE customer_id = ?
+    `;
+    const { customer_name, phone, email, customer_address, id_proof } = customer;
+
+    return new Promise((resolve, reject) => {
+        db.run(sqlStmt, [customer_name, phone, email, customer_address, id_proof, id], function(err) {
+            if (err) reject(err);
+            else resolve(this.changes);
+        })
+    });
+}
+
+export { getAllCustomers, findCustomerById, saveCustomer, updateCustomer }

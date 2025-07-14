@@ -3,7 +3,8 @@ const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
-    let url = BASE_URL + 'customers/register';
+    const hiddenId = document.getElementById('customerIdInput').value;
+    const isEdit = hiddenId !== "";
     const customerData = {
         name: document.getElementById('customer-name').value,
         phone: document.getElementById('customer-phone').value,
@@ -11,15 +12,20 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
         address: document.getElementById('customer-address').value,
         customerID: document.getElementById('customer-id').value
     };
-    const options = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(customerData)
-    };
 
-    fetch(url, options)
+    if (isEdit) {
+        updateCustomer(hiddenId, customerData);
+    } else {
+        let url = BASE_URL + 'customers/register';
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customerData)
+        };
+
+        fetch(url, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to register customer : ' + response.statusText);
@@ -47,13 +53,73 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
         .catch(error => {
             console.log('Error: ' + error.message);
         });
-        document.getElementById('customer-name').value = "";
-        document.getElementById('customer-phone').value = "";
-        document.getElementById('customer-email').value = "";
-        document.getElementById('customer-address').value = "";
-        document.getElementById('customer-id').value = "";
-        closeAllPopups();
+    }
+
+    // let url = BASE_URL + 'customers/register';
+    // const options = {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(customerData)
+    // };
+
+    // fetch(url, options)
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Failed to register customer : ' + response.statusText);
+    //         }
+    //         response.json()
+    //         .then((result) =>{
+    //             return result;
+    //         })
+    //         .then(data => {
+    //             console.log(data.row_changed + " new customer added with Customer ID: " + data.customer_id);
+    //             url = BASE_URL + `customers/${data.customer_id}`;
+    //             fetch(url)
+    //             .then(response => {
+    //                 if (!response.ok) {
+    //                     throw new Error('Customer fetching failed')
+    //                 }
+    //                 response.json()
+    //                 .then(result => updateCustomerTable(result))
+    //                 .catch(err => console.log(err.message));
+    //             })
+    //             .catch(err => console.log('fetch API failure : ' + err.message));
+    //         })
+    //         .catch(err => console.log(err.message));
+    //     })
+    //     .catch(error => {
+    //         console.log('Error: ' + error.message);
+    //     });
+    document.getElementById('customer-name').value = "";
+    document.getElementById('customer-phone').value = "";
+    document.getElementById('customer-email').value = "";
+    document.getElementById('customer-address').value = "";
+    document.getElementById('customer-id').value = "";
+    closeAllPopups();
 });
+
+function updateCustomer(id, customerData) {
+    const url = BASE_URL + `customers/${id}`;
+    const options = {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(customerData)
+    };
+
+    fetch(url, options)
+    .then(response => {
+        response.json()
+    })
+    .then(data => {
+        console.log('Customer Updated : ' + data);
+        // closeAllPopups();
+    })
+    .catch(err => console.log(err.message));
+}
 
 // document.getElementById('get-customers').addEventListener('click', () => {
 //     const url = BASE_URL + 'customers/';
@@ -165,7 +231,7 @@ function updateTable(loanDetails) {
 
 function updateCustomerTable(customerData) {
     const customerTableBody = document.getElementById('customerTableBody');
-    const newRow = `<tr>
+    const newRow = `<tr data-id="${customerData.id}">
                         <td>${customerData.id}</td>
                         <td>${customerData.name}</td>
                         <td>${customerData.phone}</td>
@@ -180,6 +246,25 @@ function updateCustomerTable(customerData) {
                         </td>
                     </tr>`;
     customerTableBody.innerHTML += newRow;
+}
+
+function editCustomer(id) {
+    const row = document.querySelector(`#customerTableBody tr[data-id='${id}']`);
+    console.log('Editing customer with id : ' + id);
+    if (!row) {
+        console.log('Error fetching row');
+        return;
+    };
+
+    document.getElementById('customerFormTitle').textContent = 'Edit Customer';
+    document.getElementById('customerIdInput').value = id;
+    document.getElementById('customer-name').value = row.children[1].textContent;
+    document.getElementById('customer-phone').value = row.children[2].textContent;
+    document.getElementById('customer-email').value = row.children[3].textContent;
+    document.getElementById('customer-address').value = row.children[4].textContent;
+    document.getElementById('customer-id').value = row.children[5].textContent;
+
+    openPopup('customerPopup');
 }
 
 function openPopup(id) {

@@ -66,8 +66,9 @@
     <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>
 
     <div class="popup-form" id="customerPopup">
-        <h2>Add Customer</h2>
+        <h2 id="customerFormTitle">Add Customer</h2>
         <form>
+            <input type="hidden" id="customerIdInput">
             <input type="text" id="customer-name" placeholder="Name" required>
             <input type="text" id="customer-phone" placeholder="Phone" required>
             <input type="email" id="customer-email" placeholder="Email" required>
