@@ -15,4 +15,28 @@ async function saveLoan(loan) {
     });
 }
 
-export { saveLoan }
+async function findLoanById(id) {
+    const sqlStmt = 'SELECT * FROM loans WHERE loan_id = ?;';
+    return new Promise((resolve, reject) => {
+        db.get(sqlStmt, [id], (err, row) => {
+            if (err) {
+                console.log('Error while fetching loan with ID: ' + id);
+                reject(err);
+            } else {
+                let loan = {
+                    loan_id: row.loan_id,
+                    customer_id: row.customer_id,
+                    loan_amount: row.loan_amount,
+                    interest_rate: row.interest_rate,
+                    emi: row.emi,
+                    start_date: row.start_date,
+                    due_date: row.due_date,
+                    status: row.status
+                }
+                resolve(loan);
+            }
+        });
+    });
+}
+
+export { saveLoan, findLoanById }

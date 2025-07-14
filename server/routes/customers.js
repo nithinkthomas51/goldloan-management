@@ -34,12 +34,9 @@ router.post('/register', async(req, res) => {
 
 router.get('/:id', async (req, res) => {
     const {id} = req.params;
-    try {
-        const customer = await findCustomerById(parseInt(id));
-        res.status(200).json(customer);
-    } catch (err) {
-        res.status(500).json({error: err.message});
-    }
+    findCustomerById(parseInt(id))
+    .then(result => res.status(200).json(result))
+    .catch(err => res.status(500).json({error: err.message}));
 });
 
 export default router

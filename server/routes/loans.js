@@ -1,5 +1,5 @@
 import express from 'express'
-import { saveLoan } from '../models/loanModel.js';
+import { saveLoan, findLoanById } from '../models/loanModel.js';
 const router = express.Router();
 
 const loans = [
@@ -63,8 +63,12 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const {id} = req.params;
-    const loan = loans.find((loan) => loan.loanId === id);
-    res.send(loan);
+    findLoanById(id)
+    .then(result => res.status(200).json(result))
+    .catch(err => {
+        console.log(err.message);
+        res.status(500).json({error: err.message});
+    });
 })
 
 router.get('/filter/:id', (req, res) => {

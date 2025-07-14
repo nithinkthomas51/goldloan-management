@@ -3,7 +3,7 @@ const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
-    const url = BASE_URL + 'customers/register';
+    let url = BASE_URL + 'customers/register';
     const customerData = {
         name: document.getElementById('customer-name').value,
         phone: document.getElementById('customer-phone').value,
@@ -30,6 +30,17 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
             })
             .then(data => {
                 console.log(data.row_changed + " new customer added with Customer ID: " + data.customer_id);
+                url = BASE_URL + `customers/${data.customer_id}`;
+                fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Customer fetching failed')
+                    }
+                    response.json()
+                    .then(result => updateCustomerTable(result))
+                    .catch(err => console.log(err.message));
+                })
+                .catch(err => console.log('fetch API failure : ' + err.message));
             })
             .catch(err => console.log(err.message));
         })
@@ -44,36 +55,36 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
         closeAllPopups();
 });
 
-document.getElementById('get-customers').addEventListener('click', () => {
-    const url = BASE_URL + 'customers/';
+// document.getElementById('get-customers').addEventListener('click', () => {
+//     const url = BASE_URL + 'customers/';
 
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-    };
+//     const options = {
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//     };
 
-    fetch(url, options)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Fetching customer details failed');
-        }
-        response.json()
-        .then(result => {
-            return result;
-        })
-        .then(data => console.log(data))
-        .catch(err => console.log(err.message));
-    })
-    .catch(err => {
-        console.log('Error: ' + err);
-    });
-});
+//     fetch(url, options)
+//     .then(response => {
+//         if (!response.ok) {
+//             throw new Error('Fetching customer details failed');
+//         }
+//         response.json()
+//         .then(result => {
+//             return result;
+//         })
+//         .then(data => console.log(data))
+//         .catch(err => console.log(err.message));
+//     })
+//     .catch(err => {
+//         console.log('Error: ' + err);
+//     });
+// });
 
 document.getElementById('create-loan').addEventListener('click', (e) => {
     e.preventDefault();
-    const url = BASE_URL + "loans/";
+    let url = BASE_URL + "loans/";
     const loanData = {
         customer_id: document.getElementById('customer_id').value,
         start_date: document.getElementById('start_date').value,
@@ -106,14 +117,70 @@ document.getElementById('create-loan').addEventListener('click', (e) => {
         .then(data => {
             if (data.row_changed === 1) {
                 loanID = data.loan_id;
+                url += `${loanID}`;
+                fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failure in fetching loan with ID: ' + loanID);
+                    }
+                    response.json()
+                    .then(result => updateTable(result))
+                    .catch(err => console.log(err.message));
+                })
+                .catch(err => console.log('Error while retrieving latest pushed loan : ' + err.message));
             }
         })
         .catch(err => console.log(err.message))
     })
     .catch(err => console.log(err.message));
 
+    document.getElementById('customer_id').value = "";
+    document.getElementById('start_date').value = "";
+    document.getElementById('due_date').value = "";
+    document.getElementById('total_weight').value = "";
+    document.getElementById('estimated_value').value = "";
+    document.getElementById('loan_amount').value = "";
+    document.getElementById('interest_rate').value = "";
+    document.getElementById('emi').value = "";
+
+    document.querySelectorAll('.remove-btn').forEach(removeButton => removeGoldItem(removeButton));
+    closeAllPopups();
 
 });
+
+function updateTable(loanDetails) {
+    const tableBody = document.getElementById('loanTableBody');
+    const newRow = `<tr>
+                        <td>${loanDetails.loan_id}</td>
+                        <td>${loanDetails.customer_id}</td>
+                        <td>${loanDetails.loan_amount}</td>
+                        <td>${loanDetails.interest_rate}</td>
+                        <td>${loanDetails.emi}</td>
+                        <td>${loanDetails.start_date}</td>
+                        <td>${loanDetails.due_date}</td>
+                        <td>${loanDetails.status}</td>
+                    </tr>`;
+    tableBody.innerHTML += newRow;
+}
+
+function updateCustomerTable(customerData) {
+    const customerTableBody = document.getElementById('customerTableBody');
+    const newRow = `<tr>
+                        <td>${customerData.id}</td>
+                        <td>${customerData.name}</td>
+                        <td>${customerData.phone}</td>
+                        <td>${customerData.email}</td>
+                        <td>${customerData.address}</td>
+                        <td>${customerData.id_proof}</td>
+                        <td>
+                            <div style="display: flex; gap: 5px">
+                                <button class="action-btn" onclick="editCustomer(${customerData.id})">Edit</button>
+                                <button class="action-btn" onclick="deleteCustomer(${customerData.id})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>`;
+    customerTableBody.innerHTML += newRow;
+}
 
 function openPopup(id) {
     document.getElementById('overlay').style.display = 'block';
@@ -136,13 +203,49 @@ function addGoldItem() {
             <option value="Bangle">Bangle</option>
             <option value="Necklace">Necklace</option>
         </select>
-        <input type="number" placeholder="Weight (grams)" required>
-        <input type="number" placeholder="Purity (karat)" required>
+        <input type="number" class="gold-weight" placeholder="Weight (grams)" required>
+        <input type="number" class="gold-purity" placeholder="Purity (karat)" required>
         <button type="button" class="remove-btn" onclick="removeGoldItem(this)">X</button>
     `;
     container.appendChild(div);
+
+    // attaching an eventlistener to the gold weight and gold purity input fields
+    const goldWeight = div.querySelector('.gold-weight');
+    const goldPurity = div.querySelector('.gold-purity');
+    goldWeight.addEventListener('input', updateTotalWeight);
+    goldPurity.addEventListener('input', calculateEstimatedValue);
 }
 
+function updateTotalWeight() {
+    let totalWeight = 0;
+    document.querySelectorAll('.gold-weight').forEach(input => {
+        const val = parseFloat(input.value);
+        if (!isNaN(val)) {
+            totalWeight += val;
+        }
+    });
+    document.getElementById('total_weight').value = totalWeight.toFixed(2);
+}
+
+function calculateEstimatedValue() {
+    const marketRatePerGram = 6000;  // TODO update with current market rate for 24K gram of gold
+    let totalValue = 0;
+
+    document.querySelectorAll('.gold-item').forEach(item => {
+        const weight = parseFloat(item.querySelector('.gold-weight')?.value) || 0;
+        const purity = parseFloat(item.querySelector('.gold-purity')?.value) || 0;
+
+        if (weight && purity) {
+            totalValue += weight * (purity / 24) * marketRatePerGram; 
+        }
+    });
+
+    document.getElementById('estimated_value').value = totalValue.toFixed(2);
+
+}
+ 
 function removeGoldItem(button) {
     button.parentElement.remove();
+    updateTotalWeight();
+    calculateEstimatedValue();
 }

@@ -16,27 +16,51 @@
         </div>
     </div>
 
-    <div class="section">
-        <h2>Active Loans</h2>
-        <table class="loan-table" border="1" cellspacing="0" cellpadding="10">
-            <thead class="loanTableHead">
-                <tr>
-                    <th>Loan ID</th>
-                    <th>Customer ID</th>
-                    <th>Loan Amount</th>
-                    <th>Interest (%)</th>
-                    <th>EMI</th>
-                    <th>Start Date</th>
-                    <th>Due Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="loanTableBody">
-                <!-- Loan rows will be dynamically inserted here using js-->
+    <div class="dashboard">
+        <div class="table-section">
+            <h2>Customers</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>ID Proof</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="customerTableBody">
+                    <!--Dynamically updated by JS-->
 
-            </tbody>
+                </tbody>
+            </table>
 
-        </table>
+        </div>
+
+        <div class="table-section">
+            <h2>Loans</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Customer ID</th>
+                        <th>Loan Amount</th>
+                        <th>Interest (%)</th>
+                        <th>EMI</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="loanTableBody">
+                    <!-- Loan rows will be dynamically inserted here using js-->
+
+                </tbody>
+
+            </table>
+        </div>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAllPopups()"></div>

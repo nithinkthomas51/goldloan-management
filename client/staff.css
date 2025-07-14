@@ -30,6 +30,36 @@ body {
     cursor: pointer;
 }
 
+.dashboard {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.table-section {
+    flex: 1;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #fff3cd;
+}
+
 .popup-form {
     display: none;
     position: fixed;
@@ -78,7 +108,7 @@ form input, form select, form button {
     flex: 1;
 }
 
-.remove-btn {
+.remove-btn, .action-btn {
     background-color: #e74c3c;
     color: white;
     border: none;
@@ -87,15 +117,4 @@ form input, form select, form button {
     cursor: pointer;
     width: 50px;
     height:38px                                                                                                                                                                                                                                                     
-}
-
-.loan-table {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-}
-
-.loanTableHead {
-    background-color: #fff3cd;
 }
