@@ -1,5 +1,5 @@
 import express from 'express'
-import { saveLoan, findLoanById } from '../models/loanModel.js';
+import { saveLoan, findLoanById, getAllLoans } from '../models/loanModel.js';
 const router = express.Router();
 
 
@@ -28,8 +28,13 @@ router.post('/', (req, res) => {
     .catch(err => res.status(500).json({error: err.message}));
 });
 
-router.get('/', (req, res) => {
-    res.send(loans);
+router.get('/', async (req, res) => {
+    try {
+        const loans = await getAllLoans();
+        res.status(200).json({data: loans});
+    } catch(err) {
+        res.status(400).json({error: "Falied to get loans : " + err.message});
+    }
 });
 
 router.get('/:id', (req, res) => {

@@ -1,5 +1,10 @@
 const BASE_URL = 'https://fuzzy-space-adventure-7wvwjpwq554fwq4q-5000.app.github.dev/';
 
+window.addEventListener('DOMContentLoaded', () => {
+    fetchAllCustomers();
+    fetchAllLoans();
+});
+
 document.getElementById('customer-registration').addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -60,6 +65,8 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
     document.getElementById('customer-email').value = "";
     document.getElementById('customer-address').value = "";
     document.getElementById('customer-id').value = "";
+    document.getElementById('customerFormTitle').textContent = 'Add Customer';
+    document.getElementById('customerIdInput').value = "";
     closeAllPopups();
 });
 
@@ -96,32 +103,66 @@ function editCustomerTable(id, customer) {
     row.children[5].textContent = customer.customerID;
 }
 
-// document.getElementById('get-customers').addEventListener('click', () => {
-//     const url = BASE_URL + 'customers/';
+function fetchAllCustomers() {
+    const url = BASE_URL + 'customers/';
 
-//     const options = {
-//         method: 'GET',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//     };
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
 
-//     fetch(url, options)
-//     .then(response => {
-//         if (!response.ok) {
-//             throw new Error('Fetching customer details failed');
-//         }
-//         response.json()
-//         .then(result => {
-//             return result;
-//         })
-//         .then(data => console.log(data))
-//         .catch(err => console.log(err.message));
-//     })
-//     .catch(err => {
-//         console.log('Error: ' + err);
-//     });
-// });
+    fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Fetching customer details failed');
+        }
+        response.json()
+        .then(result => {
+            return result;
+        })
+        .then(({data}) => {
+            console.log(data);
+            data.customers.forEach(customer => updateCustomerTable(customer));
+        })
+        .catch(err => console.log(err.message));
+    })
+    .catch(err => {
+        console.log('Error: ' + err);
+    });
+}
+
+function fetchAllLoans() {
+
+    const url = BASE_URL + 'loans/';
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+
+    fetch(url, options)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Fetching customer details failed');
+        }
+        response.json()
+        .then(result => {
+            return result;
+        })
+        .then(({data}) => {
+            console.log(data);
+            data.loans.forEach(customer => updateTable(customer));
+        })
+        .catch(err => console.log(err.message));
+    })
+    .catch(err => {
+        console.log('Error: ' + err);
+    });
+
+}
 
 document.getElementById('create-loan').addEventListener('click', (e) => {
     e.preventDefault();
