@@ -26,11 +26,30 @@ The purpose of this project is to digitalize the important business operations o
 
 ## Data Entities
 
--   Customer
--   Loan
--   Pledged Gold
--   Payments
--   User
+### Customer
+-   `customer_id`: INTEGER PRIMARY KEY
+-   `name`: TEXT
+-   `phone`: TEXT
+-   `email`: TEXT
+-   `address`: TEXT
+-   `id_proof`: TEXT
+### Loan
+-   `loan_id`: INTEGER PRIMARY KEY
+-   `customer_id`: INTEGRE FOREIGN KEY
+-   `start_date`: TEXT
+-   `due_date`: TEXT
+-   `total_weight`: REAL
+-   `estimated_value`: REAL
+-   `loan_amount`: REAL
+-   `interest_rate`: REAL
+-   `emi`: REAL
+-   `status`: TEXT
+### Pledged Gold
+`Not Implemented`
+### Payments
+`Not Implemented`
+### User
+`Not Implemented`
 
 ## Planned Technologies
 
@@ -38,6 +57,34 @@ The purpose of this project is to digitalize the important business operations o
 -   **Backend**: Express
 -   **Database**: SQLite
 -   **Version Control**: Git GitHub
+
+## Implemented Features
+
+### Staff Dashboard
+
+- Add/Edit/Delete Customers
+- Create new Loan with multiple gold items
+- Auto calculate total weight and estimated gold value
+- View all customers and loans
+
+### Business Logic
+
+- Estimated Value = weight * (purity/24) * market rate (6999/gram default)
+
+## API Overview
+
+### Customers
+
+- `GET /customers` -> Fetch all customers
+- `POST /customers/register` -> Add a new customer
+- `PATCH /customers/:id` -> Update customer
+- `DELETE /customers/:id` -> Delete customer
+
+### Loans
+
+- `GET /loans` -> Fetch all loans
+- `POST /loans` -> Add new loan
+
 
 ---
 
