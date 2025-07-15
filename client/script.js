@@ -14,6 +14,7 @@ document.getElementById('customer-registration').addEventListener('click', (e) =
     };
 
     if (isEdit) {
+        console.log(customerData);
         updateCustomer(hiddenId, customerData);
     } else {
         let url = BASE_URL + 'customers/register';
@@ -220,6 +221,28 @@ function updateCustomerTable(customerData) {
                         </td>
                     </tr>`;
     customerTableBody.innerHTML += newRow;
+}
+
+function deleteCustomer(id) {
+    const url = BASE_URL + `customers/${id}`;
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    };
+
+    fetch(url, options)
+    .then(response => {
+        if (response.ok)
+            deleteCustomerFromTable(id);
+    })
+    .catch(err => console.log("Error while deleting the customer: " + err.message));
+}
+
+function deleteCustomerFromTable(id) {
+    const row = document.querySelector(`#customerTableBody tr[data-id='${id}']`);
+    if (row) row.remove();
 }
 
 function editCustomer(id) {

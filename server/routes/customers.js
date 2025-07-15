@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllCustomers, findCustomerById, saveCustomer, updateCustomer } from '../models/customerModel.js'
+import { getAllCustomers, findCustomerById, saveCustomer, updateCustomer, deleteCustomer } from '../models/customerModel.js'
 
 const router = express.Router();
 
@@ -47,9 +47,25 @@ router.patch('/:id', async(req, res) => {
         if (result > 0) {
             res.status(200).json({message: 'Updated successfully'});
         } else {
-            res.status(404).json({error: 'Customer not found'});
+            res.status(404).json({message: 'Customer not found'});
         }
     })
     .catch(err => console.log(err.message));
-})
+});
+
+router.delete('/:id', async(req, res) => {
+    const id = req.params.id;
+    deleteCustomer(id)
+    .then(result => {
+        if(result > 0) {
+            res.status(200).json({message: "Customer deleted successfully"});
+        } else {
+            res.status(404).json({message: "customer not found"})
+        }
+    })
+    .catch(err => {
+        res.status(500).json({error: "internal server error : " + err.message});
+    });
+});
+
 export default router
