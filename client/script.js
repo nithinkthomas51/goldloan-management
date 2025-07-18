@@ -164,6 +164,33 @@ function fetchAllLoans() {
 
 }
 
+document.getElementById('customer_name').addEventListener('focus', (e) => {
+    const id = document.getElementById('customer_id').value;
+    if (id === "") {
+        document.getElementById('customer_name').value = "";
+        return;
+    }
+
+    const url = BASE_URL + `customers/${id}`;
+    const options = {method: 'GET'};
+
+    fetch(url, options)
+    .then(response => {
+        if (response.ok) {
+            response.json()
+            .then(customer => {
+                document.getElementById('customer_name').value = customer.name;
+            })
+            .catch(err => console.log(err.message));
+        } else {
+            alert('No such customer');
+            document.getElementById('customer_id').value = "";
+            document.getElementById('customer_name').value = "";
+        }
+    })
+    .catch(err => console.log(err.message));
+})
+
 document.getElementById('create-loan').addEventListener('click', (e) => {
     e.preventDefault();
     loanStartDate = new Date();
@@ -369,8 +396,12 @@ function calculateEstimatedValue() {
     calculateMaximumLoanAmount(totalValue);
 }
 
+function getMaxLoanAmount(estimatedValue) {
+    return (estimatedValue * 90)/100;
+}
+
 function calculateMaximumLoanAmount(estimatedValue) {
-    maxLoanAmount = (estimatedValue * 90)/100;
+    const maxLoanAmount = getMaxLoanAmount(estimatedValue);
     document.getElementById('loan_amount').value = maxLoanAmount.toFixed(2);
 }
 

@@ -34,15 +34,19 @@ async function findCustomerById(id) {
                 console.log('Error while fetching customer with id: ' + id);
                 reject(err);
             } else {
-                let customer = {
+                if (row) {
+                    let customer = {
                     id: row.customer_id,
                     name: row.customer_name,
                     phone: row.phone,
                     email: row.email,
                     address: row.customer_address,
                     id_proof: row.id_proof
+                    }
+                    resolve(customer);
+                } else {
+                    reject("No such customer");
                 }
-                resolve(customer);
             }
         });
     });
