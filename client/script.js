@@ -166,11 +166,15 @@ function fetchAllLoans() {
 
 document.getElementById('create-loan').addEventListener('click', (e) => {
     e.preventDefault();
+    loanStartDate = new Date();
+    loanDueDate = new Date( loanStartDate.getFullYear(), 
+                            loanStartDate.getMonth() + parseInt(document.getElementById('tenure').value), 
+                            loanStartDate.getDate());
     let url = BASE_URL + "loans/";
     const loanData = {
         customer_id: document.getElementById('customer_id').value,
-        start_date: document.getElementById('start_date').value,
-        due_date: document.getElementById('due_date').value,
+        start_date: loanStartDate.toDateString(), // TODO change this logic to get today's date
+        due_date: loanDueDate.toDateString(),
         total_weight: document.getElementById('total_weight').value,
         estimated_value: document.getElementById('estimated_value').value,
         loan_amount: document.getElementById('loan_amount').value,
@@ -217,8 +221,8 @@ document.getElementById('create-loan').addEventListener('click', (e) => {
     .catch(err => console.log(err.message));
 
     document.getElementById('customer_id').value = "";
-    document.getElementById('start_date').value = "";
-    document.getElementById('due_date').value = "";
+    document.getElementById('customer_name').value = "";
+    document.getElementById('tenure').value = "";
     document.getElementById('total_weight').value = "";
     document.getElementById('estimated_value').value = "";
     document.getElementById('loan_amount').value = "";
@@ -351,20 +355,33 @@ function updateTotalWeight() {
 }
 
 function calculateEstimatedValue() {
-    const marketRatePerGram = 6000;  // TODO update with current market rate for 24K gram of gold
+    const marketRatePerGram = 4700;
     let totalValue = 0;
-
     document.querySelectorAll('.gold-item').forEach(item => {
-        const weight = parseFloat(item.querySelector('.gold-weight')?.value) || 0;
-        const purity = parseFloat(item.querySelector('.gold-purity')?.value) || 0;
+        const weight = (parseFloat(item.querySelector('.gold-weight')?.value) || 0);
+        const purity = (parseFloat(item.querySelector('.gold-purity')?.value) || 0);
 
         if (weight && purity) {
             totalValue += weight * (purity / 24) * marketRatePerGram; 
         }
     });
-
     document.getElementById('estimated_value').value = totalValue.toFixed(2);
+    calculateMaximumLoanAmount(totalValue);
+}
 
+function calculateMaximumLoanAmount(estimatedValue) {
+    maxLoanAmount = (estimatedValue * 90)/100;
+    document.getElementById('loan_amount').value = maxLoanAmount.toFixed(2);
+}
+
+document.getElementById('tenure').addEventListener('input', calculateEMI);
+
+function calculateEMI() {
+    principalAmount = parseFloat(document.getElementById('loan_amount').value);
+    months = parseInt(document.getElementById('tenure').value);
+    rateOfInterest = parseFloat(document.getElementById('interest_rate').value)/12/100;
+    emi = (principalAmount * rateOfInterest * ((1 + rateOfInterest) ** months)) / (((1 + rateOfInterest) ** months) - 1);
+    document.getElementById('emi').value = emi.toFixed(2);
 }
  
 function removeGoldItem(button) {

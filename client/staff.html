@@ -81,8 +81,8 @@
     <div class="popup-form" id="loanPopup">
         <h2>Create New Loan</h2>
         <form id="loanForm">
-            <input type="text" id="customer_id" placeholder="Customer ID" required>
-            <input type="date" id="start_date" placeholder="Start Date" required>
+            <input type="number" id="customer_id" placeholder="Customer ID" required>
+            <input type="text" id="customer_name" placeholder="Customer Name" required>
 
             <h3>Gold Details</h3>
             <div id="goldDetails"></div>
@@ -92,7 +92,7 @@
             <input type="text" id="estimated_value" placeholder="Estimated Value" readonly>
             <input type="number" id="loan_amount" placeholder="Loan Amount" required>
             <input type="number" id="interest_rate" placeholder="Interest %" required>
-            <input type="date" id="due_date" placeholder="Due Date" required>
+            <input type="number" id="tenure" placeholder="Tenure (Months)" required>
             <input type="text" id="emi" placeholder="EMI" readonly>
             <button type="submit" id="create-loan">Accept</button>
         </form>
