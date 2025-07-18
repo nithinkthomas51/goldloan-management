@@ -69,18 +69,21 @@ The purpose of this project is to digitalize the important business operations o
 
 - Add/Edit/Delete Customers
 - Create new Loan with multiple gold items
-- Auto calculate total weight and estimated gold value
+- Auto populate customer name when creating a new loan based on the given customer ID
+- Auto calculate total weight, estimated gold value, maximum loan amount and EMI
 - View all customers and loans
 
 ### Business Logic
 
 - Estimated Value = weight * (purity/24) * market rate (6999/gram default)
+- EMI = (Principal loan amount * rate of interest * ((1 + rate of interest) ^ number of months)) / (((1 + rate of interest) ^ number of months) - 1)
 
 ## API Overview
 
 ### Customers
 
 - `GET /customers` -> Fetch all customers
+- `GET /customers/:id` -> Fetch customer by ID
 - `POST /customers/register` -> Add a new customer
 - `PATCH /customers/:id` -> Update customer
 - `DELETE /customers/:id` -> Delete customer
@@ -144,7 +147,7 @@ The purpose of this project is to digitalize the important business operations o
 			viii. Due Date
 			ix. EMI [Auto calculated]
     ```
-    - Commit: [Staff Dashboard](https://github.com/nithinkthomas51/goldloan-management/commit/073e3b5e160c74d481e365bb7a2300c18ec1667d) -> client/staff.html, client/staff.css, and client/index.html files
+    - Commit: [Staff Dashboard](https://github.com/nithinkthomas51/goldloan-management/commit/073e3b5e160c74d481e365bb7a2300c18ec1667d) -> Entire code in this commit is AI generated
 
 2. Regular Expression for enabling pre-flight OPTIONS across-the-board
     - Prompt: 
@@ -166,6 +169,9 @@ The purpose of this project is to digitalize the important business operations o
 - Express.js. (n.d.). *CORS middleware*. [online] Available at: https://expressjs.com/en/resources/middleware/cors.html.
 - freeCodeCamp. (2022). *How to Create a CRUD API Project*. [online] Available at: https://www.freecodecamp.org/news/create-crud-api-project/#heading-how-to-create-the-get-users-endpoint.
 - Stack Overflow. (2022). *Method DELETE not allowed on Fetch request - CORS*. [online] Available at: https://stackoverflow.com/questions/71635069/method-delete-not-allowed-on-fetch-request-cors/71635157.
+- ClearTax. (n.d.). EMI Formula: How To Calculate EMI With Example. [online] Available at: https://cleartax.in/s/emi-calculation-formula
+- W3Schools. (n.d.). JavaScript Date Objects. [online] Available at: https://www.w3schools.com/jsref/jsref_obj_date.asp
+- Mozilla Developer Network (MDN). (n.d.). HTTP access control (CORS). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
 - OpenAI, (2025). *ChatGPT*. [online] Available at: https://chat.openai.com.
 
 ---
