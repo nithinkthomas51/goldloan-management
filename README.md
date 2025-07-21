@@ -174,5 +174,9 @@ The purpose of this project is to digitalize the important business operations o
 - Mozilla Developer Network (MDN). (n.d.). HTTP access control (CORS). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS
 - OpenAI, (2025). *ChatGPT*. [online] Available at: https://chat.openai.com.
 
+NOTE: I forgot to demo the customer edit and delete features during my project presentation. 
+Edit button is there in customer table against each customer row and upon clicking it, an edit popup will be displayed with all the current details. Upon submit, a PATCH request will be triggered and the modified data will be updated in the database and also the UI.
+Similarly, Delete button is also present near to the Edit button in the customer table against each customers, which will delete the customer from both the database and the UI by triggering the DELETE request.
+Kindly consider these features as well during the project evaluation.
 ---
 
